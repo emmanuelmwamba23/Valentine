@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>One Question 💌</title>
+  <style>
+    :root{
+      --bg1:#0b0b12;
+      --bg2:#1a0f1b;
+      --card:#ffffff0f;
+      --stroke:#ffffff1f;
+      --text:#f6f7fb;
+      --muted:#c9c9d6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 20%, #ff4d8d22, transparent 60%),
+        radial-gradient(900px 500px at 80% 80%, #7c4dff22, transparent 60%),
+        linear-gradient(120deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+    .sparkles{
+      position:fixed; inset:0; pointer-events:none; opacity:.35;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, #fff, transparent 60%),
+        radial-gradient(1.5px 1.5px at 70% 20%, #fff, transparent 60%),
+        radial-gradient(1.5px 1.5px at 35% 75%, #fff, transparent 60%),
+        radial-gradient(2px 2px at 80% 60%, #fff, transparent 60%),
+        radial-gradient(1.5px 1.5px at 55% 45%, #fff, transparent 60%);
+      animation: twinkle 4s ease-in-out infinite alternate;
+    }
+    @keyframes twinkle{from{filter:blur(.2px)}to{filter:blur(1px)}}
+
+    .card{
+      width:min(720px, 92vw);
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, #ffffff10, #ffffff08);
+      border-radius:22px;
+      padding:26px;
+      box-shadow: 0 18px 60px #00000055;
+      position:relative;
+    }
+    .badge{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: #00000025;
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.2px;
+    }
+    .badge .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: #ff4d8d;
+      box-shadow: 0 0 18px #ff4d8d;
+    }
+    h1{
+      margin:16px 0 8px;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height:1.1;
+    }
+    p{margin:0 0 16px; color:var(--muted); font-size:16px; line-height:1.6}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+      margin-top:18px;
+    }
+    @media (max-width: 720px){
+      .grid{grid-template-columns:1fr}
+    }
+    .panel{
+      border:1px solid var(--stroke);
+      background: #00000020;
+      border-radius:18px;
+      padding:18px;
+    }
+    label{display:block; font-size:13px; color:var(--muted); margin:8px 0 6px}
+    input, textarea{
+      width:100%;
+      border:1px solid var(--stroke);
+      background:#0b0b1210;
+      color:var(--text);
+      border-radius:14px;
+      padding:12px 12px;
+      outline:none;
+      font-size:15px;
+    }
+    textarea{min-height:90px; resize:vertical}
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, #ff4d8d, #ff2f78);
+      color:white;
+      padding:12px 14px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:.2px;
+      box-shadow: 0 14px 26px #ff2f7830;
+    }
+    .btn.secondary{
+      background: #ffffff12;
+      color:var(--text);
+      box-shadow:none;
+    }
+    .btn:active{transform: translateY(1px)}
+    .note{
+      font-size:13px;
+      color:#cfcfe6;
+      opacity:.85;
+      margin-top:10px;
+    }
+    .bigQ{
+      font-size: clamp(22px, 3.2vw, 34px);
+      margin: 10px 0 14px;
+    }
+    .answers{
+      display:flex; gap:12px; flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+    .pill{
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:#00000022;
+      cursor:pointer;
+      font-weight:700;
+      user-select:none;
+    }
+    .pill.yes{background:linear-gradient(180deg,#2ee59d,#1ac47f); color:#062114; border-color:#2ee59d55}
+    .pill.no{background:#ffffff12}
+    .hidden{display:none}
+    .footer{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .heart{
+      position:absolute;
+      right:18px; top:18px;
+      font-size:20px;
+      opacity:.9;
+      filter: drop-shadow(0 0 18px #ff4d8d);
+    }
+    .toast{
+      position:fixed;
+      bottom:18px; left:50%;
+      transform:translateX(-50%);
+      background:#11111b;
+      border:1px solid var(--stroke);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      box-shadow:0 16px 40px #00000055;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease;
+      max-width:min(680px, 92vw);
+      font-size:14px;
+    }
+    .toast.show{opacity:1}
+    .confetti{
+      position:fixed; inset:0; pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="sparkles"></div>
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <main class="card" role="main">
+    <div class="heart">💘</div>
+
+    <div class="badge"><span class="dot"></span> A small website with a big question</div>
+    <h1 id="title">Hey you 🙂</h1>
+    <p id="subtitle">I made this page for one reason only.</p>
+
+    <div class="grid">
+      <section class="panel">
+        <h2 style="margin:0 0 8px; font-size:18px;">Make it yours</h2>
+        <p style="margin-bottom:12px;">Fill this in, then tap <b>Generate</b>. You’ll get a shareable link & a message.</p>
+
+        <label>Your girlfriend’s name</label>
+        <input id="herName" placeholder="e.g. Sarah" />
+
+        <label>Your name</label>
+        <input id="yourName" placeholder="e.g. Emmanuel" />
+
+        <label>One thing you love about her (keep it sweet)</label>
+        <input id="loveLine" placeholder="e.g. the way you make life feel lighter" />
+
+        <label>Optional: a short inside joke / memory</label>
+        <textarea id="memory" placeholder="e.g. that day we laughed at ____"></textarea>
+
+        <div class="row" style="margin-top:12px;">
+          <button class="btn" id="generate">Generate 💌</button>
+          <button class="btn secondary" id="copyLink">Copy link</button>
+          <button class="btn secondary" id="copyMsg">Copy message</button>
+        </div>
+
+        <div class="note" id="note">
+          Tip: after you publish, send her the link + the copied message.
+        </div>
+      </section>
+
+      <section class="panel" id="preview">
+        <h2 style="margin:0 0 8px; font-size:18px;">Preview</h2>
+        <div class="bigQ" id="question">Will you be my Valentine? 💝</div>
+        <p id="lines" style="margin-bottom:10px;">(Generate to personalize this.)</p>
+
+        <div class="answers">
+          <div class="pill yes" id="yesBtn">Yes 💚</div>
+          <div class="pill no" id="noBtn">No 🙈</div>
+        </div>
+
+        <div id="result" class="hidden" style="margin-top:14px;">
+          <div style="font-weight:800; font-size:18px;" id="resultTitle">YAY!</div>
+          <p style="margin-top:6px;" id="resultText">Best choice ever.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      <div>Made with boldness & good vibes ✨</div>
+      <div id="tinyLink" style="opacity:.9"></div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  // --- Helpers ---
+  const $ = (id) => document.getElementById(id);
+  const toast = (msg) => {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"), 1600);
+  };
+
+  // --- Read URL params for a personalized view ---
+  const params = new URLSearchParams(location.search);
+  const her = params.get("her") || "";
+  const you = params.get("you") || "";
+  const love = params.get("love") || "";
+  const mem = params.get("mem") || "";
+
+  function render(herName, yourName, loveLine, memory){
+    $("title").textContent = herName ? `Hey ${herName} 🙂` : "Hey you 🙂";
+    $("subtitle").textContent = yourName ? `From: ${yourName}` : "I made this page for one reason only.";
+    let text = "";
+    if(loveLine) text += `I love ${loveLine}. `;
+    if(memory) text += `Also… I still smile about: “${memory}”. `;
+    if(!text) text = "I wrote something for you… but first, personalize it on the left 🙂";
+    $("lines").textContent = text;
+
+    $("question").textContent = herName
+      ? `${herName}, will you be my Valentine? 💝`
+      : `Will you be my Valentine? 💝`;
+
+    $("result").classList.add("hidden");
+  }
+
+  render(her, you, love, mem);
+
+  // --- Set inputs if params exist ---
+  if(her) $("herName").value = her;
+  if(you) $("yourName").value = you;
+  if(love) $("loveLine").value = love;
+  if(mem) $("memory").value = mem;
+
+  // --- Generate share link ---
+  function buildLink(){
+    const herName = $("herName").value.trim();
+    const yourName = $("yourName").value.trim();
+    const loveLine = $("loveLine").value.trim();
+    const memory = $("memory").value.trim();
+
+    const q = new URLSearchParams();
+    if(herName) q.set("her", herName);
+    if(yourName) q.set("you", yourName);
+    if(loveLine) q.set("love", loveLine);
+    if(memory) q.set("mem", memory);
+
+    const link = location.origin + location.pathname + (q.toString() ? "?" + q.toString() : "");
+    return { link, herName, yourName, loveLine, memory };
+  }
+
+  $("generate").addEventListener("click", ()=>{
+    const { link, herName, yourName, loveLine, memory } = buildLink();
+    render(herName, yourName, loveLine, memory);
+    $("tinyLink").textContent = link.replace(/^https?:\/\//,"");
+    toast("Generated!");
+  });
+
+  $("copyLink").addEventListener("click", async ()=>{
+    const { link } = buildLink();
+    try{
+      await navigator.clipboard.writeText(link);
+      toast("Link copied ✅");
+    }catch(e){
+      toast("Copy failed — select & copy manually.");
+      prompt("Copy your link:", link);
+    }
+  });
+
+  $("copyMsg").addEventListener("click", async ()=>{
+    const { link, herName, yourName } = buildLink();
+    const msg =
+`Hey ${herName || "love"} 💌
+I made you a tiny website.
+Open this: ${link}
+
+(And yes… there’s a question inside 😄)
+— ${yourName || "me"}`;
+    try{
+      await navigator.clipboard.writeText(msg);
+      toast("Message copied ✅");
+    }catch(e){
+      prompt("Copy your message:", msg);
+    }
+  });
+
+  // --- Valentine interaction ---
+  function launchConfetti(){
+    const c = $("confetti");
+    const ctx = c.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+    c.width = innerWidth * dpr; c.height = innerHeight * dpr;
+    c.style.width = innerWidth + "px";
+    c.style.height = innerHeight + "px";
+    ctx.scale(dpr, dpr);
+
+    const pieces = Array.from({length: 180}, () => ({
+      x: Math.random()*innerWidth,
+      y: -20 - Math.random()*innerHeight,
+      r: 2 + Math.random()*4,
+      vy: 2 + Math.random()*5,
+      vx: -2 + Math.random()*4,
+      rot: Math.random()*Math.PI
+    }));
+
+    let t = 0;
+    const tick = () => {
+      t++;
+      ctx.clearRect(0,0,innerWidth, innerHeight);
+      for(const p of pieces){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += 0.08;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillRect(-p.r, -p.r, p.r*2.2, p.r*2.2);
+        ctx.restore();
+      }
+      if(t < 140) requestAnimationFrame(tick);
+      else ctx.clearRect(0,0,innerWidth, innerHeight);
+    };
+    tick();
+  }
+
+  $("yesBtn").addEventListener("click", ()=>{
+    $("result").classList.remove("hidden");
+    $("resultTitle").textContent = "YAAAY 💚";
+    $("resultText").textContent = "Okay then… it’s official. I’m taking you out 😌";
+    launchConfetti();
+  });
+
+  // "No" button playfully dodges the cursor (still respectful)
+  const noBtn = $("noBtn");
+  noBtn.addEventListener("mouseenter", ()=>{
+    const rect = noBtn.getBoundingClientRect();
+    const dx = (Math.random() > 0.5 ? 1 : -1) * (60 + Math.random()*120);
+    const dy = (Math.random() > 0.5 ? 1 : -1) * (30 + Math.random()*90);
+    noBtn.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+  noBtn.addEventListener("click", ()=>{
+    toast("Nice try 😄 (you can still press Yes)");
+  });
+</script>
+</body>
+</html>
