@@ -2,65 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- Mobile-safe: no cropping, supports iPhone notch -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>💌</title>
-
   <style>
     :root{
       --bg1:#14002a;
       --bg2:#ff2f7a;
       --bg3:#6a5cff;
-
       --cardA: rgba(255,255,255,.18);
       --cardB: rgba(255,255,255,.10);
       --stroke: rgba(255,255,255,.22);
-
       --text:#fff;
       --muted: rgba(255,255,255,.84);
-
       --shadow: rgba(0,0,0,.48);
       --radius: 22px;
     }
-
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
-
-    /* KEY FIX: allow scrolling on short screens instead of cropping */
     body{
       margin:0;
       font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
       color:var(--text);
       overflow-x:hidden;
       overflow-y:auto;
-
-      /* Safe-area padding for notch + home indicator */
       padding:
         calc(12px + env(safe-area-inset-top))
         calc(12px + env(safe-area-inset-right))
         calc(16px + env(safe-area-inset-bottom))
         calc(12px + env(safe-area-inset-left));
-
-      /* Dynamic background */
       background:
         radial-gradient(900px 650px at 15% 20%, rgba(255,255,255,.22), transparent 60%),
         radial-gradient(900px 650px at 85% 80%, rgba(255,255,255,.16), transparent 62%),
         linear-gradient(120deg, var(--bg1), var(--bg3), var(--bg2));
       background-size: 160% 160%;
       animation: bgMove 10s ease-in-out infinite alternate;
-
       display:flex;
       align-items:center;
       justify-content:center;
       min-height:100%;
     }
-
     @keyframes bgMove{
       from{ background-position: 0% 20%; }
       to{ background-position: 100% 80%; }
     }
-
-    /* Soft glowing blobs */
     .glow{
       position:fixed;
       inset:0;
@@ -95,8 +79,6 @@
       from{ transform: translate(0,0) scale(1); }
       to{ transform: translate(18px,-12px) scale(1.05); }
     }
-
-    /* Floating hearts layer (keeps dynamism) */
     .hearts{
       position:fixed;
       inset:0;
@@ -117,16 +99,12 @@
       10%  { opacity:1; }
       100% { transform: translateY(-120vh) translateX(30px) rotate(14deg); opacity:0; }
     }
-
-    /* Confetti canvas */
     #confetti{
       position:fixed;
       inset:0;
       pointer-events:none;
       z-index:2;
     }
-
-    /* Main card (responsive width for all phones, no cropping) */
     .card{
       width: min(440px, 100%);
       background: linear-gradient(180deg, var(--cardA), var(--cardB));
@@ -137,19 +115,14 @@
       overflow:hidden;
       position:relative;
       z-index:3;
-
-      /* KEY FIX: if screen is short, card can shrink and content scrolls */
       max-height: calc(100svh - (24px + env(safe-area-inset-top) + env(safe-area-inset-bottom)));
       display:flex;
       flex-direction:column;
     }
-
-    /* Top header */
     .top{
       padding: 18px 18px 12px;
       flex: 0 0 auto;
     }
-
     .badge{
       display:inline-flex;
       gap:10px;
@@ -168,7 +141,6 @@
       box-shadow:0 0 18px rgba(255,255,255,.95);
       opacity:.95;
     }
-
     h1{
       margin: 14px 0 6px;
       font-size: clamp(22px, 5.6vw, 34px);
@@ -181,14 +153,11 @@
       font-size: clamp(13px, 3.4vw, 15.5px);
       line-height:1.5;
     }
-
     .divider{
       height:1px;
       background: rgba(255,255,255,.15);
       margin-top: 12px;
     }
-
-    /* Scrollable body area (prevents cropping on iPhone 14 Pro and small phones) */
     .body{
       padding: 14px 18px 18px;
       display:flex;
@@ -198,14 +167,12 @@
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
-
     .panel{
       border:1px solid rgba(255,255,255,.18);
       background: rgba(0,0,0,.12);
       border-radius: 18px;
       padding: 14px;
     }
-
     .text{
       margin:0;
       color:var(--muted);
@@ -213,7 +180,6 @@
       line-height: 1.7;
     }
     .text b{ color:#fff; }
-
     .qTitle{
       margin:0 0 8px;
       font-size: 16px;
@@ -221,7 +187,6 @@
       opacity:.95;
       letter-spacing:.2px;
     }
-
     .bigQ{
       margin: 0 0 10px;
       font-weight: 950;
@@ -229,21 +194,17 @@
       font-size: clamp(18px, 4.8vw, 26px);
       line-height: 1.15;
     }
-
     .hint{
       margin:0 0 12px;
       color:var(--muted);
       font-size: clamp(13px, 3.4vw, 15px);
       line-height: 1.55;
     }
-
-    /* Buttons: big, tap-friendly, never overflow */
     .btns{
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
     }
-
     .btn{
       border:1px solid var(--stroke);
       border-radius: 16px;
@@ -257,21 +218,18 @@
       font-size: clamp(14px, 3.7vw, 16px);
     }
     .btn:active{ transform: translateY(1px) scale(.995); }
-
     .yes{
       background: linear-gradient(180deg, #ffffff, #ffe6f0);
       color:#2a0034;
       box-shadow: 0 14px 26px rgba(0,0,0,.18);
     }
     .yes:hover{ filter: brightness(1.02); }
-
     .no{
       background: rgba(255,255,255,.12);
       color:#fff;
       position:relative;
       transform: translate3d(0,0,0);
     }
-
     .result{
       display:none;
       margin-top: 12px;
@@ -296,7 +254,6 @@
       line-height: 1.6;
       font-size: 14.5px;
     }
-
     footer{
       padding: 0 18px 16px;
       color: var(--muted);
@@ -308,8 +265,6 @@
       opacity:.95;
       flex: 0 0 auto;
     }
-
-    /* Toast */
     .toast{
       position:fixed;
       left:50%;
@@ -330,8 +285,6 @@
       z-index: 10;
     }
     .toast.show{ opacity:1; }
-
-    /* Short-height screens: tighten padding a bit (keeps everything visible) */
     @media (max-height: 720px){
       .top{ padding: 14px 14px 10px; }
       .body{ padding: 12px 14px 14px; gap:10px; }
@@ -339,12 +292,37 @@
       footer{ padding: 0 14px 12px; }
       .btn{ padding: 12px 12px; border-radius: 14px; }
     }
-
-    /* Very small phones: card width stays safe */
     @media (max-width: 360px){
       .card{ width: 100%; }
       .top{ padding: 14px 14px 10px; }
       .body{ padding: 12px 14px 14px; }
+    }
+
+    /* Dramatic YES overlay (hidden by default) */
+    .yesOverlay{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+      z-index:9;
+      background:
+        radial-gradient(900px 700px at 50% 40%, rgba(255,255,255,.28), transparent 62%),
+        radial-gradient(900px 700px at 50% 70%, rgba(255,47,122,.22), transparent 65%);
+      transition: opacity .35s ease;
+    }
+    .yesOverlay.show{ opacity:1; }
+
+    /* Heart burst layer */
+    .burst{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9;
+    }
+    .burstHeart{
+      position:absolute;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
     }
   </style>
 </head>
@@ -353,35 +331,32 @@
   <div class="glow"></div>
   <div class="hearts" id="hearts"></div>
   <canvas id="confetti"></canvas>
+  <div class="yesOverlay" id="yesOverlay"></div>
+  <div class="burst" id="burst"></div>
 
   <main class="card" role="main" aria-label="Valentine page">
     <section class="top">
       <div class="badge"><span class="dot"></span> Built with effort + feelings</div>
       <h1>Hey Jennipher Mwanza 🙂</h1>
-      <p class="sub">From Emmanuel Mwamba — in “funny romantic” mode 😌💘</p>
+      <p class="sub">From Emmanuel Mwamba in funny romantic mode 😌💘</p>
       <div class="divider"></div>
     </section>
 
     <section class="body">
       <div class="panel">
         <p class="text">
-          Okay listen… I could’ve sent a normal message like a regular person.<br>
-          But I chose drama. The cute kind. So I built a whole website 😭💗
+          Okay listen I could’ve sent a normal message like a regular person but I chose drama the cute kind so I built a whole website 😭💗
           <br><br>
-          One thing I genuinely love about you?
-          The way you <b>listen</b> and <b>understand</b>.
-          You don’t just hear me — you get me. And that’s rare.
+          One thing I genuinely love about you is the way you <b>listen</b> and <b>understand</b> you don’t just hear me you get me and that’s rare
           <br><br>
-          You make serious moments feel soft,
-          and random conversations feel special.
-          So now that I’ve done the most…
+          You make serious moments feel soft and random conversations feel special so now that I’ve done the most
         </p>
       </div>
 
       <div class="panel" id="questionPanel">
         <div class="qTitle">The question</div>
-        <div class="bigQ">Jennipher, will you be my Valentine? 💝</div>
-        <p class="hint">Choose wisely 😄 (If you press “Yes” I will smile like an idiot.)</p>
+        <div class="bigQ">Jennipher will you be my Valentine 💝</div>
+        <p class="hint">Choose wisely 😄 if you press Yes I will smile like an idiot</p>
 
         <div class="btns">
           <div class="btn yes" id="yesBtn">Yes 💚</div>
@@ -390,14 +365,14 @@
 
         <div class="result" id="result">
           <p class="resultTitle">YAAAY 💚</p>
-          <p class="resultText">Okay then… it’s official. I’m taking you out 😌✨</p>
+          <p class="resultText" id="resultText">Okay then it’s official I’m taking you out 😌✨</p>
         </div>
       </div>
     </section>
 
     <footer>
-      <div>Made for Jennipher. By Emmanuel. ✨</div>
-      <div>Valentine Mode: ON 💌</div>
+      <div>Made for Jennipher by Emmanuel ✨</div>
+      <div>Valentine Mode ON 💌</div>
     </footer>
   </main>
 
@@ -405,31 +380,32 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
+
     const toast = (msg) => {
       const t = $("toast");
       t.textContent = msg;
       t.classList.add("show");
-      setTimeout(()=>t.classList.remove("show"), 1400);
+      setTimeout(()=>t.classList.remove("show"), 1500);
     };
 
-    // Floating hearts (keeps dynamism without breaking layout)
     const hearts = $("hearts");
     const emojis = ["💖","💘","💗","💕","💞","✨","💝"];
+
     function spawnHeart(){
       const el = document.createElement("div");
       el.className = "heart";
       el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
       el.style.left = Math.random()*100 + "vw";
-      el.style.fontSize = (12 + Math.random()*18) + "px";
-      el.style.animationDuration = (6 + Math.random()*7) + "s";
-      el.style.opacity = (0.40 + Math.random()*0.50).toFixed(2);
+      el.style.fontSize = (14 + Math.random()*20) + "px";
+      el.style.animationDuration = (6 + Math.random()*6) + "s";
+      el.style.opacity = (0.45 + Math.random()*0.45).toFixed(2);
       hearts.appendChild(el);
-      setTimeout(()=>el.remove(), 13000);
+      setTimeout(()=>el.remove(), 12000);
     }
-    for(let i=0;i<10;i++) setTimeout(spawnHeart, i*240);
-    setInterval(spawnHeart, 520);
 
-    // Confetti (on Yes)
+    for(let i=0;i<12;i++) setTimeout(spawnHeart, i*200);
+    setInterval(spawnHeart, 600);
+
     function launchConfetti(){
       const c = $("confetti");
       const ctx = c.getContext("2d");
@@ -443,14 +419,14 @@
       resize();
 
       const palette = ["#ffffff","#ffd1e6","#ff2f7a","#6a5cff","#2ee59d","#ffe66d"];
-      const pieces = Array.from({length: 220}, () => ({
+      const pieces = Array.from({length: 380}, () => ({
         x: Math.random()*innerWidth,
         y: -20 - Math.random()*innerHeight,
-        s: 2 + Math.random()*5,
-        vy: 2.3 + Math.random()*5.2,
-        vx: -2.2 + Math.random()*4.4,
+        s: 3 + Math.random()*7,
+        vy: 3 + Math.random()*6.5,
+        vx: -3.2 + Math.random()*6.4,
         rot: Math.random()*Math.PI,
-        vr: -0.12 + Math.random()*0.24,
+        vr: -0.25 + Math.random()*0.5,
         color: palette[Math.floor(Math.random()*palette.length)]
       }));
 
@@ -458,6 +434,7 @@
       const tick = () => {
         t++;
         ctx.clearRect(0,0,innerWidth, innerHeight);
+
         for(const p of pieces){
           p.x += p.vx;
           p.y += p.vy;
@@ -469,56 +446,101 @@
           ctx.fillRect(-p.s, -p.s, p.s*2.2, p.s*2.2);
           ctx.restore();
         }
-        if(t < 170) requestAnimationFrame(tick);
+
+        if(t < 220) requestAnimationFrame(tick);
         else ctx.clearRect(0,0,innerWidth, innerHeight);
       };
-      tick();
 
+      tick();
       window.addEventListener("resize", resize, { once:true });
     }
 
-    // Yes action
-    $("yesBtn").addEventListener("click", ()=>{
-      $("result").style.display = "block";
-      launchConfetti();
-      toast("Best. Decision. Ever. 💘");
-    });
-
-    // No button: playful dodge BUT bounded + won’t break layout
-    const noBtn = $("noBtn");
-    let dodges = 0;
-
-    function dodge(){
-      const panel = $("questionPanel").getBoundingClientRect();
-      const btn = noBtn.getBoundingClientRect();
-
-      // Keep movement small so it stays inside the card on phones
-      const maxX = Math.max(0, Math.min(60, panel.width - btn.width - 18));
-      const maxY = 18;
-
-      const dx = (Math.random() * maxX) - (maxX/2);
-      const dy = (Math.random() * maxY) - (maxY/2);
-
-      noBtn.style.transform = `translate(${dx}px, ${dy}px)`;
-      setTimeout(()=>{ noBtn.style.transform = ""; }, 650);
+    function heartBurst(x, y){
+      const layer = $("burst");
+      const burstEmojis = ["💖","💗","💞","💕","💘","✨"];
+      for(let i=0;i<18;i++){
+        const h = document.createElement("div");
+        h.className = "burstHeart";
+        h.textContent = burstEmojis[Math.floor(Math.random()*burstEmojis.length)];
+        h.style.left = x + "px";
+        h.style.top = y + "px";
+        h.style.fontSize = (16 + Math.random()*18) + "px";
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 60 + Math.random()*120;
+        const dx = Math.cos(angle) * dist;
+        const dy = Math.sin(angle) * dist;
+        h.animate([
+          { transform: "translate(-50%,-50%) scale(0.6)", opacity: 0 },
+          { transform: "translate(-50%,-50%) scale(1)", opacity: 1, offset: 0.2 },
+          { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1.05)`, opacity: 0 }
+        ], { duration: 900 + Math.random()*350, easing: "cubic-bezier(.2,.8,.2,1)" });
+        layer.appendChild(h);
+        setTimeout(()=>h.remove(), 1400);
+      }
     }
 
-    noBtn.addEventListener("mouseenter", ()=>{
-      if(dodges < 2){ dodges++; dodge(); }
+    function dramaticGlow(){
+      const overlay = $("yesOverlay");
+      overlay.classList.add("show");
+      document.body.style.transition = "0.35s ease";
+      document.body.style.filter = "brightness(1.18) saturate(1.25)";
+      setTimeout(()=>{
+        overlay.classList.remove("show");
+        document.body.style.filter = "";
+      }, 1300);
+    }
+
+    $("yesBtn").addEventListener("click", (e)=>{
+      const result = $("result");
+      result.style.display = "block";
+      result.style.transform = "scale(1.06)";
+      result.style.transition = "0.3s ease";
+      setTimeout(()=>{ result.style.transform = "scale(1)"; }, 260);
+
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = rect.left + rect.width/2;
+      const y = rect.top + rect.height/2;
+
+      dramaticGlow();
+      launchConfetti();
+      heartBurst(x, y);
+      toast("SHE SAID YES 😭💘");
+      $("resultText").textContent = "Okay then it’s official I’m taking you out and I’m not even pretending to be calm 😌✨";
     });
 
+    const noBtn = $("noBtn");
+    let moveCount = 0;
+
+    function runAway(){
+      const card = document.querySelector(".card").getBoundingClientRect();
+      const btn = noBtn.getBoundingClientRect();
+
+      const maxX = Math.max(0, card.width - btn.width - 24);
+      const maxY = Math.max(0, card.height - btn.height - 24);
+
+      const randomX = (Math.random() * maxX) - (maxX/2);
+      const randomY = (Math.random() * maxY) - (maxY/2);
+
+      noBtn.style.transition = "0.22s ease";
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random()*18-9}deg)`;
+
+      moveCount++;
+
+      if(moveCount === 1) toast("Hey 😭 why are you going there");
+      else if(moveCount === 2) toast("No no no come back 😭");
+      else if(moveCount === 3) toast("Okay stop running and press Yes 😌");
+      else if(moveCount === 5) toast("I will keep chasing you 💀");
+    }
+
+    noBtn.addEventListener("mouseenter", runAway);
+
     noBtn.addEventListener("touchstart", (e)=>{
-      if(dodges < 2){
-        dodges++;
-        dodge();
-        e.preventDefault();
-      } else {
-        toast("Nice try 😄");
-      }
+      runAway();
+      e.preventDefault();
     }, {passive:false});
 
     noBtn.addEventListener("click", ()=>{
-      toast("Nice try 😄 (You can still press Yes)");
+      toast("Nice try 😄 but the Yes button looks better");
     });
   </script>
 </body>
