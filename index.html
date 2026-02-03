@@ -12,34 +12,33 @@
       --bg3:#6a5cff;
 
       --card: rgba(255,255,255,.14);
-      --stroke: rgba(255,255,255,.22);
+      --stroke: rgba(255,255,255,.20);
 
-      --text: #ffffff;
-      --muted: rgba(255,255,255,.84);
+      --text:#ffffff;
+      --muted: rgba(255,255,255,.82);
 
+      --radius: 18px;
       --shadow: rgba(0,0,0,.45);
-      --radius: 22px;
     }
 
     *{ box-sizing:border-box; }
     html, body { height:100%; }
+
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       color: var(--text);
       overflow-x:hidden;
 
-      /* Bright animated gradient background */
       background: linear-gradient(120deg, var(--bg1), var(--bg3), var(--bg2));
-      background-size: 160% 160%;
+      background-size: 170% 170%;
       animation: bgShift 10s ease-in-out infinite alternate;
 
-      /* iPhone notch/home bar safe areas */
       padding:
-        calc(14px + env(safe-area-inset-top))
-        calc(14px + env(safe-area-inset-right))
-        calc(18px + env(safe-area-inset-bottom))
-        calc(14px + env(safe-area-inset-left));
+        calc(10px + env(safe-area-inset-top))
+        calc(12px + env(safe-area-inset-right))
+        calc(14px + env(safe-area-inset-bottom))
+        calc(12px + env(safe-area-inset-left));
 
       display:flex;
       align-items:center;
@@ -53,45 +52,44 @@
 
     /* Soft glow blobs */
     .glow{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      opacity:.55;
     }
-    .glow::before,
-    .glow::after{
+    .glow::before, .glow::after{
       content:"";
       position:absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 999px;
-      filter: blur(18px);
-      opacity: .35;
+      width:520px;
+      height:520px;
+      border-radius:999px;
+      filter: blur(20px);
       animation: floatGlow 8s ease-in-out infinite alternate;
     }
     .glow::before{
-      left:-200px; top:-220px;
+      left:-240px; top:-260px;
       background: radial-gradient(circle at 30% 30%, #ffffffaa, transparent 55%),
                   radial-gradient(circle at 60% 60%, #ffb3d1aa, transparent 65%);
     }
     .glow::after{
-      right:-240px; bottom:-260px;
+      right:-260px; bottom:-280px;
       background: radial-gradient(circle at 30% 30%, #ffffffaa, transparent 55%),
                   radial-gradient(circle at 60% 60%, #b9b3ffaa, transparent 65%);
-      animation-delay: .6s;
+      animation-delay:.7s;
     }
     @keyframes floatGlow{
       from{ transform: translate(0,0) scale(1); }
-      to{ transform: translate(18px, -12px) scale(1.05); }
+      to{ transform: translate(18px, -10px) scale(1.05); }
     }
 
-    /* Floating hearts (cute, subtle) */
+    /* Floating hearts */
     .hearts{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      opacity: .9;
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      opacity:.85;
     }
     .heart{
       position:absolute;
@@ -103,152 +101,151 @@
     @keyframes floatUp{
       0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
       10%  { opacity:1; }
-      100% { transform: translateY(-120vh) translateX(28px) rotate(12deg); opacity:0; }
+      100% { transform: translateY(-120vh) translateX(24px) rotate(12deg); opacity:0; }
     }
 
-    /* Main card */
+    /* Main card: tuned for iPhone 14 Pro (393px width) */
     .card{
-      width: min(420px, 100%); /* iPhone-friendly width */
-      border: 1px solid var(--stroke);
+      width:100%;
+      max-width:360px; /* key for 14 Pro */
+      border:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.10));
       border-radius: var(--radius);
-      box-shadow: 0 22px 70px var(--shadow);
-      overflow:hidden;
+      box-shadow: 0 18px 60px var(--shadow);
       backdrop-filter: blur(10px);
+      overflow:hidden;
       transform: translateZ(0);
     }
 
     .top{
-      padding: 18px 18px 12px;
-      position:relative;
+      padding:14px 14px 10px;
     }
 
     .badge{
       display:inline-flex;
       align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--stroke);
+      gap:8px;
+      font-size:11px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
       background: rgba(0,0,0,.14);
       color: var(--muted);
-      font-size: 13px;
-      letter-spacing: .2px;
+      letter-spacing:.2px;
     }
     .dot{
-      width: 8px; height: 8px;
-      border-radius: 999px;
-      background: #fff;
-      box-shadow: 0 0 18px rgba(255,255,255,.95);
-      opacity: .95;
+      width:7px; height:7px; border-radius:999px;
+      background:#fff;
+      box-shadow:0 0 14px rgba(255,255,255,.9);
+      opacity:.95;
     }
 
     h1{
-      margin: 14px 0 6px;
-      font-size: 30px;
-      line-height: 1.08;
-      letter-spacing: .2px;
+      margin:10px 0 4px;
+      font-size:22px;
+      line-height:1.12;
+      letter-spacing:.2px;
     }
+
     .sub{
       margin:0;
-      color: var(--muted);
-      font-size: 14.8px;
-      line-height: 1.55;
+      font-size:13px;
+      line-height:1.45;
+      color:var(--muted);
     }
 
     .divider{
-      height: 1px;
-      background: rgba(255,255,255,.14);
-      margin: 12px 0 0;
+      height:1px;
+      background: rgba(255,255,255,.15);
+      margin-top:10px;
     }
 
     .body{
-      padding: 14px 18px 18px;
+      padding:10px 14px 14px;
       display:flex;
-      flex-direction: column;
-      gap: 12px;
+      flex-direction:column;
+      gap:10px;
     }
 
     .panel{
-      border: 1px solid rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.18);
       background: rgba(0,0,0,.12);
-      border-radius: 18px;
-      padding: 14px;
+      border-radius:14px;
+      padding:12px;
     }
 
     .text{
       margin:0;
-      color: var(--muted);
-      font-size: 15.8px;
-      line-height: 1.75;
+      font-size:14px;
+      line-height:1.62;
+      color:var(--muted);
     }
-    .text b{ color: #fff; }
+    .text b{ color:#fff; }
 
     .qTitle{
-      margin: 0 0 8px;
-      font-size: 16px;
+      margin:0 0 6px;
+      font-size:14px;
+      font-weight:800;
       opacity:.95;
-      font-weight: 800;
-      letter-spacing: .2px;
+      letter-spacing:.2px;
     }
 
     .bigQ{
-      margin: 0 0 10px;
-      font-size: 24px;
-      line-height: 1.15;
-      font-weight: 950;
-      letter-spacing: .2px;
+      margin:0 0 8px;
+      font-size:18px;
+      font-weight:950;
+      line-height:1.22;
+      letter-spacing:.2px;
     }
 
     .hint{
-      margin:0 0 12px;
-      color: var(--muted);
-      font-size: 14.8px;
-      line-height: 1.6;
+      margin:0 0 10px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.55;
     }
 
-    /* Buttons: large & iPhone tap-friendly */
     .btns{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
     }
 
     .btn{
-      border: 1px solid var(--stroke);
-      border-radius: 16px;
-      padding: 14px 14px;
-      font-weight: 950;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
+      border:1px solid var(--stroke);
+      border-radius:12px;
+      padding:11px 12px;
+      font-weight:900;
+      text-align:center;
+      cursor:pointer;
+      user-select:none;
       -webkit-tap-highlight-color: transparent;
       transition: transform .12s ease, filter .12s ease;
-      font-size: 16px;
+      font-size:14px;
     }
     .btn:active{ transform: translateY(1px) scale(.995); }
 
     .yes{
       background: linear-gradient(180deg, #ffffff, #ffe6f0);
-      color: #2a0034;
-      box-shadow: 0 14px 26px rgba(0,0,0,.18);
+      color:#2a0034;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
     }
     .yes:hover{ filter: brightness(1.02); }
 
     .no{
       background: rgba(255,255,255,.12);
-      color: #fff;
+      color:#fff;
       position: relative;
       transform: translate3d(0,0,0);
     }
 
     .result{
       display:none;
-      margin-top: 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.20);
-      background: rgba(0,0,0,.12);
-      padding: 12px 12px;
+      margin-top:10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(0,0,0,.10);
+      padding:10px;
       animation: pop .22s ease-out;
     }
     @keyframes pop{
@@ -256,61 +253,62 @@
       to{ transform: scale(1); opacity:1; }
     }
     .resultTitle{
-      margin:0 0 6px;
-      font-weight: 950;
-      font-size: 17px;
+      margin:0 0 4px;
+      font-weight:950;
+      font-size:16px;
     }
     .resultText{
       margin:0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14.8px;
+      color:var(--muted);
+      font-size:13.5px;
+      line-height:1.55;
     }
 
     footer{
-      padding: 0 18px 16px;
-      color: var(--muted);
-      font-size: 12.8px;
+      padding: 0 14px 14px;
+      color:var(--muted);
+      font-size:12.5px;
       display:flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
       opacity:.95;
     }
 
     /* Toast */
     .toast{
-      position: fixed;
-      left: 50%;
-      bottom: calc(14px + env(safe-area-inset-bottom));
+      position:fixed;
+      left:50%;
+      bottom: calc(12px + env(safe-area-inset-bottom));
       transform: translateX(-50%);
       max-width: min(520px, 92vw);
-      padding: 10px 12px;
+      padding:10px 12px;
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.22);
-      background: rgba(15,15,22,.76);
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(15,15,22,.78);
       backdrop-filter: blur(10px);
-      color: #fff;
-      box-shadow: 0 18px 50px rgba(0,0,0,.45);
-      opacity: 0;
+      color:#fff;
+      box-shadow: 0 16px 40px rgba(0,0,0,.45);
+      opacity:0;
       pointer-events:none;
       transition: opacity .22s ease;
-      font-size: 14px;
+      font-size:14px;
     }
     .toast.show{ opacity:1; }
 
     /* Confetti */
     #confetti{
-      position: fixed;
-      inset: 0;
+      position:fixed;
+      inset:0;
       pointer-events:none;
     }
 
-    /* Slightly larger on very big phones (14 Pro Max) */
+    /* Slightly bigger on 14 Pro Max (430px) */
     @media (min-width: 420px){
-      .card{ width: 420px; }
-      .bigQ{ font-size: 25px; }
-      .text{ font-size: 16px; }
+      .card{ max-width: 380px; }
+      h1{ font-size:24px; }
+      .bigQ{ font-size:19px; }
+      .text{ font-size:14.5px; }
     }
   </style>
 </head>
@@ -324,7 +322,7 @@
     <section class="top">
       <div class="badge"><span class="dot"></span> Built with effort + feelings</div>
       <h1>Hey Jennipher Mwanza 🙂</h1>
-      <p class="sub">From Emmanuel Mwamba — in “funny romantic” mode 😌💘</p>
+      <p class="sub">From Emmanuel Mwamba in “funny romantic” mode 😌💘</p>
       <div class="divider"></div>
     </section>
 
@@ -336,7 +334,7 @@
           <br><br>
           One thing I genuinely love about you?
           The way you <b>listen</b> and <b>understand</b>.
-          You don’t just hear me — you get me. And that’s rare.
+          You don’t just hear me, you get me. And that’s rare.
           <br><br>
           You make serious moments feel soft,
           and random conversations feel special.
@@ -347,9 +345,7 @@
       <div class="panel" id="questionPanel">
         <div class="qTitle">The question</div>
         <div class="bigQ">Jennipher, will you be my Valentine? 💝</div>
-        <p class="hint">
-          Choose wisely 😄 (If you press “Yes” I will smile like an idiot.)
-        </p>
+        <p class="hint">Choose wisely 😄 (If you press “Yes” I will smile like an idiot.)</p>
 
         <div class="btns">
           <div class="btn yes" id="yesBtn">Yes 💚</div>
@@ -357,8 +353,8 @@
         </div>
 
         <div class="result" id="result">
-          <p class="resultTitle" id="resultTitle">YAAAY 💚</p>
-          <p class="resultText" id="resultText">Okay then… it’s official. I’m taking you out 😌✨</p>
+          <p class="resultTitle">YAAAY 💚</p>
+          <p class="resultText">Okay then… it’s official. I’m taking you out 😌✨</p>
         </div>
       </div>
     </section>
@@ -373,7 +369,6 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
-
     const toast = (msg) => {
       const t = $("toast");
       t.textContent = msg;
@@ -389,14 +384,14 @@
       el.className = "heart";
       el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
       el.style.left = Math.random()*100 + "vw";
-      el.style.fontSize = (14 + Math.random()*18) + "px";
-      el.style.animationDuration = (6 + Math.random()*6) + "s";
-      el.style.opacity = (0.45 + Math.random()*0.45).toFixed(2);
+      el.style.fontSize = (12 + Math.random()*16) + "px";
+      el.style.animationDuration = (6 + Math.random()*7) + "s";
+      el.style.opacity = (0.40 + Math.random()*0.50).toFixed(2);
       hearts.appendChild(el);
       setTimeout(()=>el.remove(), 13000);
     }
     for(let i=0;i<10;i++) setTimeout(spawnHeart, i*260);
-    setInterval(spawnHeart, 560);
+    setInterval(spawnHeart, 650);
 
     // Confetti
     function launchConfetti(){
@@ -412,13 +407,12 @@
       resize();
 
       const palette = ["#ffffff","#ffd1e6","#ff2f7a","#6a5cff","#2ee59d","#ffe66d"];
-
-      const pieces = Array.from({length: 220}, () => ({
+      const pieces = Array.from({length: 180}, () => ({
         x: Math.random()*innerWidth,
         y: -20 - Math.random()*innerHeight,
         s: 2 + Math.random()*5,
-        vy: 2.4 + Math.random()*5.2,
-        vx: -2.2 + Math.random()*4.4,
+        vy: 2.3 + Math.random()*5.0,
+        vx: -2.0 + Math.random()*4.0,
         rot: Math.random()*Math.PI,
         vr: -0.12 + Math.random()*0.24,
         color: palette[Math.floor(Math.random()*palette.length)]
@@ -428,7 +422,6 @@
       const tick = () => {
         t++;
         ctx.clearRect(0,0,innerWidth, innerHeight);
-
         for(const p of pieces){
           p.x += p.vx;
           p.y += p.vy;
@@ -440,8 +433,7 @@
           ctx.fillRect(-p.s, -p.s, p.s*2.2, p.s*2.2);
           ctx.restore();
         }
-
-        if(t < 170) requestAnimationFrame(tick);
+        if(t < 160) requestAnimationFrame(tick);
         else ctx.clearRect(0,0,innerWidth, innerHeight);
       };
       tick();
@@ -449,25 +441,23 @@
       window.addEventListener("resize", resize, { once:true });
     }
 
-    // Yes button
+    // Yes action
     $("yesBtn").addEventListener("click", ()=>{
-      const result = $("result");
-      result.style.display = "block";
+      $("result").style.display = "block";
       launchConfetti();
       toast("Best. Decision. Ever. 💘");
     });
 
-    // No button: cute dodge, but contained (won’t mess layout)
+    // No button: contained dodge inside panel (doesn't break layout)
     const noBtn = $("noBtn");
     let dodges = 0;
 
     function dodge(){
-      // small dodge inside the panel area
       const panel = $("questionPanel").getBoundingClientRect();
       const btn = noBtn.getBoundingClientRect();
 
-      const maxX = Math.max(0, Math.min(70, panel.width - btn.width - 20));
-      const maxY = 18;
+      const maxX = Math.max(0, Math.min(60, panel.width - btn.width - 16));
+      const maxY = 16;
 
       const dx = (Math.random() * maxX) - (maxX/2);
       const dy = (Math.random() * maxY) - (maxY/2);
@@ -476,15 +466,10 @@
       setTimeout(()=>{ noBtn.style.transform = ""; }, 650);
     }
 
-    // Desktop hover
     noBtn.addEventListener("mouseenter", ()=>{
-      if(dodges < 2){
-        dodges++;
-        dodge();
-      }
+      if(dodges < 2){ dodges++; dodge(); }
     });
 
-    // Mobile touch
     noBtn.addEventListener("touchstart", (e)=>{
       if(dodges < 2){
         dodges++;
